@@ -3,7 +3,6 @@ node{
   stage('1cloneCode'){
     git "https://github.com/class30demo/maven-web-application-1"
   }
-}
   stage('2Test&Build'){
     sh "${mavenHome}/bin/mvn clean package"
   }
@@ -13,8 +12,7 @@ node{
   stage('4uploadArtifacts'){
     sh " ${mavenHome}/bin/mvn deploy"
     http://44.211.117.74:8081/mylandmarktech/repository/tesla-jfe-releases/
-    http://44.211.117.74:8081/mylandmarktech/repository/tesla-jfe-snapshots/
-     
+    http://44.211.117.74:8081/mylandmarktech/repository/tesla-jfe-snapshots/  
   }
   stage('5deploy2UAT'){
     sh "echo deploy to UAT"
@@ -25,7 +23,6 @@ node{
     timeout(time:5, unit:'DAYS') {
     input message: 'Application ready for deployment, Please review and approve'
       }
-
   }
   stage('7deploy2Prod'){
      deploy adapters: [tomcat9(credentialsId: 'tomcat-credentials', path: '', url: 'http://172.31.80.239:8080/')], contextPath: null, war: 'target/*war'
